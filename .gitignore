@@ -1,0 +1,67 @@
+# Python
+Backend/.venv/
+Backend/venv/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.whl
+
+# Django
+Backend/media/
+Backend/db.sqlite3
+*.log
+staticfiles/
+
+# Node.js - Backend (si aplica)
+Backend/node_modules/
+Backend/package-lock.json
+
+# Node.js - Frontend
+Frontend/e-commerce\ artesanos\ front/node_modules/
+Frontend/e-commerce\ artesanos\ front/dist/
+Frontend/e-commerce\ artesanos\ front/dist-ssr/
+Frontend/e-commerce\ artesanos\ front/*.local
+
+# Environment variables
+**/.env
+.env.local
+.env.*.local
+
+# Virtual environments
+.venv
+venv/
+ENV/
+env/
+
+# IDEs
+.vscode/
+.idea/
+*.sw?
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Miscellaneous
+*.local

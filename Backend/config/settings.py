@@ -18,11 +18,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Terceros
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
-    # Apps propias
     'users',
     'products',
     'orders',
@@ -76,11 +74,7 @@ REST_FRAMEWORK = {
     ),
 }
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
-    'https://drainpipe-capacity-uncle.ngrok-free.dev',
-]
-
+CORS_ALLOW_ALL_ORIGINS = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'

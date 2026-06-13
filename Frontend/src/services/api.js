@@ -29,6 +29,6 @@ api.interceptors.response.use(
 export default api
 export const getMediaUrl = (path) => {
   if (!path) return null
-  if (path.startsWith('http')) return path
-  return `${BACKEND_URL}${path}`
+  if (path.startsWith('http')) return path.replace('http://', 'https://')
+  return `https://artesanos-production-6d7a.up.railway.app${path}`
 }

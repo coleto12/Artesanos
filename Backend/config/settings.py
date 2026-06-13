@@ -78,7 +78,9 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
+    'https://drainpipe-capacity-uncle.ngrok-free.dev',
 ]
+
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'

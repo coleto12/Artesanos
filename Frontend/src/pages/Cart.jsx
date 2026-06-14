@@ -58,7 +58,7 @@ export default function Cart() {
                 <div style={s.itemImg}>
                   {item.product.image
                     ? <img src={getMediaUrl(item.product.image)} alt={item.product.name} style={s.img} />
-                    : <div style={s.noImg}>🏺</div>}
+                    : <div style={s.noImg}></div>}
                 </div>
                 <div style={s.itemInfo}>
                   <p style={s.itemCategory}>{item.product.category_name || ''}</p>

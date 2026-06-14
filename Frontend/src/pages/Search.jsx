@@ -99,7 +99,7 @@ export default function Search() {
                 <div style={{ ...s.imgBox, height: isMobile ? '140px' : '180px' }}>
                   {p.image
                     ? <img src={getMediaUrl(p.image)} alt={p.name} style={s.img} />
-                    : <div style={s.noImg}>🏺</div>}
+                    : <div style={s.noImg}></div>}
                 </div>
                 <div style={{ ...s.info, padding: isMobile ? '10px 12px' : '14px 16px' }}>
                   <p style={s.category}>{p.category_name || ''}</p>

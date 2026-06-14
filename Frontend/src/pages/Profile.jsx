@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import api from '../services/api'
 
+const GOLD = '#d4a017'
+const BEIGE = '#c8b99a'
+
 const COLOMBIA_DEPARTMENTS = [
   "Amazonas", "Antioquia", "Arauca", "Atlántico", "Bolívar", "Boyacá",
   "Caldas", "Caquetá", "Casanare", "Cauca", "Cesar", "Chocó",
@@ -20,6 +23,13 @@ export default function Profile() {
   const [saving, setSaving] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+
+  useState(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   useEffect(() => {
     if (user) {
@@ -56,7 +66,6 @@ export default function Profile() {
       Object.entries(form).forEach(([k, v]) => data.append(k, v))
       if (avatar) data.append('avatar', avatar)
       await api.patch('/users/profile/', data, { headers: { 'Content-Type': 'multipart/form-data' } })
-
       if (user?.role === 'artesano') {
         await api.patch('/artisans/my-profile/', artisanForm)
       }
@@ -69,22 +78,20 @@ export default function Profile() {
   }
 
   return (
-    <div style={s.page}>
-      <div style={s.container}>
+    <div style={{ ...s.page, padding: isMobile ? '24px 16px' : '56px', colorScheme: 'light' }}>
+      <div style={{ ...s.container, maxWidth: isMobile ? '100%' : '720px' }}>
         <h1 style={s.title}>Mi perfil</h1>
         <div style={s.titleBar} />
         <p style={s.sub}>Actualiza tu información de contacto y presentación</p>
 
         <form onSubmit={handleSubmit}>
-          {/* ── AVATAR ── */}
-          <div style={s.card}>
-            <div style={s.avatarSection}>
+          {/* AVATAR */}
+          <div style={{ ...s.card, padding: isMobile ? '20px' : '32px' }}>
+            <div style={{ ...s.avatarSection, flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'flex-start' : 'center' }}>
               <div style={s.avatarWrapper}>
                 {preview
                   ? <img src={preview} alt="Avatar" style={s.avatarImg} />
-                  : <div style={s.avatarPlaceholder}>
-                      {user?.username?.[0]?.toUpperCase() || '?'}
-                    </div>
+                  : <div style={s.avatarPlaceholder}>{user?.username?.[0]?.toUpperCase() || '?'}</div>
                 }
               </div>
               <div>
@@ -103,10 +110,10 @@ export default function Profile() {
             </div>
           </div>
 
-          {/* ── CONTACTO ── */}
-          <div style={s.card}>
+          {/* CONTACTO */}
+          <div style={{ ...s.card, padding: isMobile ? '20px' : '32px' }}>
             <h3 style={s.sectionTitle}>Información de contacto</h3>
-            <div style={s.grid2}>
+            <div style={{ ...s.grid2, gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr' }}>
               <div style={s.field}>
                 <label style={s.label}>Teléfono</label>
                 <input name="phone" value={form.phone} onChange={handleChange} style={s.input} />
@@ -118,9 +125,9 @@ export default function Profile() {
             </div>
           </div>
 
-          {/* ── PERFIL ARTESANO ── */}
+          {/* PERFIL ARTESANO */}
           {user?.role === 'artesano' && (
-            <div style={s.card}>
+            <div style={{ ...s.card, padding: isMobile ? '20px' : '32px' }}>
               <h3 style={s.sectionTitle}>Perfil de artesano</h3>
               <div style={s.field}>
                 <label style={s.label}>Biografía</label>
@@ -128,7 +135,7 @@ export default function Profile() {
                   style={{ ...s.input, height: '100px', resize: 'vertical' }}
                   placeholder="Cuéntanos sobre ti y tu trabajo..." />
               </div>
-              <div style={s.grid2}>
+              <div style={{ ...s.grid2, gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr' }}>
                 <div style={s.field}>
                   <label style={s.label}>Departamento</label>
                   <select name="region" value={artisanForm.region} onChange={handleArtisanChange} style={s.input}>
@@ -154,7 +161,7 @@ export default function Profile() {
           {success && <p style={s.success}>✓ Perfil actualizado correctamente.</p>}
           {error && <p style={s.error}>{error}</p>}
 
-          <button type="submit" style={s.btnSave} disabled={saving}>
+          <button type="submit" style={{ ...s.btnSave, width: isMobile ? '100%' : 'auto' }} disabled={saving}>
             {saving ? 'Guardando...' : 'Guardar cambios'}
           </button>
         </form>
@@ -163,29 +170,26 @@ export default function Profile() {
   )
 }
 
-const GOLD = '#d4a017'
-const BEIGE = '#c8b99a'
-
 const s = {
-  page: { background: '#fff', minHeight: '100vh', padding: '56px', fontFamily: "'Segoe UI', sans-serif" },
-  container: { maxWidth: '720px', margin: '0 auto' },
-  title: { fontFamily: "'Playfair Display', serif", fontSize: '2.2rem', fontWeight: 700, margin: '0 0 10px', color: '#222' },
+  page: { background: '#fff', minHeight: '100vh', fontFamily: "'Segoe UI', sans-serif", color: '#222' },
+  container: { margin: '0 auto' },
+  title: { fontFamily: "'Playfair Display', serif", fontSize: '2.2rem', fontWeight: 700, margin: '0 0 10px', color: '#1a1a1a' },
   titleBar: { width: '48px', height: '3px', background: GOLD, marginBottom: '12px' },
   sub: { color: '#888', fontSize: '0.95rem', margin: '0 0 36px' },
-  card: { background: '#F6F1E7', borderRadius: '12px', padding: '32px', marginBottom: '24px', border: '1px solid #e8e0d0' },
-  avatarSection: { display: 'flex', alignItems: 'center', gap: '28px' },
+  card: { background: '#F6F1E7', borderRadius: '12px', marginBottom: '24px', border: '1px solid #e8e0d0' },
+  avatarSection: { display: 'flex', gap: '28px' },
   avatarWrapper: { flexShrink: 0 },
   avatarImg: { width: '90px', height: '90px', borderRadius: '50%', objectFit: 'cover', border: '3px solid #fff', boxShadow: '0 2px 12px rgba(0,0,0,0.1)' },
   avatarPlaceholder: { width: '90px', height: '90px', borderRadius: '50%', background: BEIGE, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.2rem', fontWeight: 700, color: '#fff' },
-  avatarName: { fontFamily: "'Playfair Display', serif", fontSize: '1.2rem', fontWeight: 700, margin: '0 0 4px' },
+  avatarName: { fontFamily: "'Playfair Display', serif", fontSize: '1.2rem', fontWeight: 700, margin: '0 0 4px', color: '#1a1a1a' },
   avatarRole: { fontSize: '0.82rem', color: '#aaa', textTransform: 'capitalize', margin: '0 0 4px' },
   avatarEmail: { fontSize: '0.82rem', color: '#888', margin: '0 0 14px' },
-  btnAvatar: { background: '#fff', border: '1px solid #ddd', padding: '8px 18px', borderRadius: '4px', fontSize: '0.82rem', cursor: 'pointer', fontWeight: 600, color: '#555' },
-  sectionTitle: { fontFamily: "'Playfair Display', serif", fontSize: '1.1rem', fontWeight: 700, margin: '0 0 20px', color: '#222' },
-  grid2: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' },
+  btnAvatar: { background: '#fff', border: '1px solid #ddd', padding: '8px 18px', borderRadius: '4px', fontSize: '0.82rem', cursor: 'pointer', fontWeight: 600, color: '#555', display: 'inline-block' },
+  sectionTitle: { fontFamily: "'Playfair Display', serif", fontSize: '1.1rem', fontWeight: 700, margin: '0 0 20px', color: '#1a1a1a' },
+  grid2: { display: 'grid', gap: '20px' },
   field: { marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '7px' },
   label: { fontSize: '0.82rem', fontWeight: 600, color: '#555', letterSpacing: '0.03em' },
-  input: { padding: '11px 14px', borderRadius: '6px', border: '1px solid #ddd', fontSize: '0.95rem', background: '#fff', fontFamily: 'inherit' },
+  input: { padding: '11px 14px', borderRadius: '6px', border: '1px solid #ddd', fontSize: '0.95rem', background: '#fff', fontFamily: 'inherit', color: '#222' },
   btnSave: { background: BEIGE, color: '#fff', border: 'none', padding: '13px 36px', borderRadius: '4px', fontSize: '0.95rem', cursor: 'pointer', fontWeight: 600 },
   success: { color: '#5a8a6a', background: '#f0faf4', padding: '12px 16px', borderRadius: '6px', marginBottom: '16px', fontSize: '0.9rem' },
   error: { color: '#c0392b', marginBottom: '16px', fontSize: '0.9rem' },

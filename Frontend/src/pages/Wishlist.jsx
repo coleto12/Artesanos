@@ -67,7 +67,7 @@ export default function Wishlist() {
       ) : tab === 'products' ? (
         products.length === 0 ? (
           <div style={s.empty}>
-            <p style={s.emptyIcon}>🏺</p>
+            <p style={s.emptyIcon}></p>
             <p style={s.emptyText}>No tienes productos favoritos aún.</p>
             <Link to="/catalog" style={s.btnPrimary}>Explorar productos</Link>
           </div>
@@ -82,7 +82,7 @@ export default function Wishlist() {
                 <div style={{ ...s.imgBox, height: isMobile ? '150px' : '200px' }}>
                   {f.product.image
                     ? <img src={getMediaUrl(f.product.image)} alt={f.product.name} style={s.img} />
-                    : <div style={s.noImg}>🏺</div>}
+                    : <div style={s.noImg}></div>}
                   <button style={s.heartBtn} onClick={() => removeProduct(f.product.id)}>♥</button>
                 </div>
                 <div style={{ ...s.cardBody, padding: isMobile ? '10px 12px' : '16px' }}>
@@ -100,7 +100,7 @@ export default function Wishlist() {
       ) : (
         artisans.length === 0 ? (
           <div style={s.empty}>
-            <p style={s.emptyIcon}>👩‍🎨</p>
+            <p style={s.emptyIcon}></p>
             <p style={s.emptyText}>No tienes artesanos favoritos aún.</p>
             <Link to="/artisans" style={s.btnPrimary}>Explorar artesanos</Link>
           </div>

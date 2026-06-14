@@ -72,7 +72,7 @@ export default function Orders() {
                         <div style={s.orderItemImg}>
                           {item.product?.image
                             ? <img src={getMediaUrl(item.product.image)} alt={item.product.name} style={s.img} />
-                            : <div style={s.noImg}>🏺</div>}
+                            : <div style={s.noImg}></div>}
                         </div>
                         <div style={s.orderItemInfo}>
                           <p style={s.orderItemName}>{item.product?.name}</p>
@@ -146,7 +146,7 @@ export default function Orders() {
                     <div style={s.detailItemImg}>
                       {item.product?.image
                         ? <img src={getMediaUrl(item.product.image)} alt={item.product.name} style={s.img} />
-                        : <div style={s.noImg}>🏺</div>}
+                        : <div style={s.noImg}></div>}
                     </div>
                     <div style={s.detailItemInfo}>
                       <p style={s.detailItemName}>{item.product?.name}</p>

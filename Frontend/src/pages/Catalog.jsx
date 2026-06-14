@@ -118,7 +118,7 @@ export default function Catalog() {
               <div style={{ ...s.imgBox, height: isMobile ? '150px' : '200px' }}>
                 {product.image
                   ? <img src={getMediaUrl(product.image)} alt={product.name} style={s.img} />
-                  : <div style={s.noImg}>🏺</div>}
+                  : <div style={s.noImg}></div>}
                 <button
                   style={{ ...s.heartBtn, color: favorites.includes(product.id) ? '#e74c3c' : '#ccc' }}
                   onClick={e => toggleFavorite(e, product.id)}>

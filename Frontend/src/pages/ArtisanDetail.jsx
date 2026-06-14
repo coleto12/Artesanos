@@ -104,7 +104,7 @@ export default function ArtisanDetail() {
                 <div style={{ ...s.productImgBox, height: isMobile ? '130px' : '180px' }}>
                   {p.image
                     ? <img src={getMediaUrl(p.image)} alt={p.name} style={s.productImg} />
-                    : <div style={s.productNoImg}>🏺</div>
+                    : <div style={s.productNoImg}></div>
                   }
                 </div>
                 <div style={{ ...s.productInfo, padding: isMobile ? '10px 12px' : '14px 16px' }}>

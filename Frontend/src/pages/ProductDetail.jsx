@@ -88,7 +88,7 @@ export default function ProductDetail() {
           <div style={{ ...s.imgBox, aspectRatio: isMobile ? '4/3' : '1' }}>
             {product.image
               ? <img src={getMediaUrl(product.image)} alt={product.name} style={s.img} />
-              : <div style={s.noImg}>🏺</div>
+              : <div style={s.noImg}></div>
             }
           </div>
         </div>

@@ -204,7 +204,7 @@ const reference = `ART-${Date.now()}`
                 <div style={s.summaryItemImg}>
                   {item.product.image
                     ? <img src={getMediaUrl(item.product.image)} alt={item.product.name} style={s.summaryImg} />
-                    : <div style={s.summaryNoImg}>🏺</div>}
+                    : <div style={s.summaryNoImg}></div>}
                 </div>
                 <div style={s.summaryItemInfo}>
                   <p style={s.summaryItemName}>{item.product.name}</p>

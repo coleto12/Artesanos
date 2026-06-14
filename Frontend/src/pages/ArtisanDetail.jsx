@@ -67,7 +67,7 @@ export default function ArtisanDetail() {
             {artisan.username}
           </h1>
           <div style={s.heroBar} />
-          {artisan.region && <p style={s.heroRegion}>📍 {artisan.region}</p>}
+          {artisan.region && <p style={s.heroRegion}>{artisan.region}</p>}
           <div style={s.heroBadges}>
             {artisan.years_of_experience > 0 && (
               <span style={s.badge}>{artisan.years_of_experience} años de experiencia</span>

@@ -116,9 +116,15 @@ export default function Regions() {
   const [artisanCount, setArtisanCount] = useState({})
   const [productCount, setProductCount] = useState({})
   const [loadingCounts, setLoadingCounts] = useState(false)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
 
   useEffect(() => {
-    // Cargar artesanos y contar por región
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  useEffect(() => {
     api.get('/artisans/').then(res => {
       const artisans = res.data
       setAllArtisans(artisans)
@@ -129,7 +135,6 @@ export default function Regions() {
       setArtisanCount(counts)
     }).catch(() => {})
 
-    // Contar productos por región para cada departamento
     const loadProductCounts = async () => {
       setLoadingCounts(true)
       const counts = {}
@@ -155,16 +160,20 @@ export default function Regions() {
   )
 
   return (
-    <div style={s.page}>
+    <div style={{ ...s.page, padding: isMobile ? '24px 16px' : '56px', colorScheme: 'light' }}>
       <h1 style={s.title}>Regiones artesanales</h1>
       <div style={s.titleBar} />
       <p style={s.sub}>Explora la riqueza artesanal de cada departamento de Colombia</p>
 
-      <div style={s.layout}>
+      <div style={{ ...s.layout, flexDirection: isMobile ? 'column' : 'row' }}>
         {/* ── MAPA ── */}
-        <div style={s.mapContainer}>
-          <p style={s.mapHint}>Haz clic en un departamento</p>
-          <svg viewBox="0 0 340 480" style={s.svg}>
+        <div style={{ ...s.mapContainer, width: isMobile ? '100%' : 'auto' }}>
+          <p style={s.mapHint}>Toca un departamento</p>
+          <svg viewBox="0 0 340 480" style={{
+            ...s.svg,
+            width: isMobile ? '100%' : '320px',
+            height: isMobile ? 'auto' : '480px',
+          }}>
             {DEPTS.map(dept => (
               <g key={dept.id} onClick={() => setSelected(dept.name)} style={{ cursor: 'pointer' }}>
                 <path
@@ -179,7 +188,6 @@ export default function Regions() {
                 />
               </g>
             ))}
-            {/* Bogotá */}
             <g onClick={() => setSelected('Bogotá D.C.')} style={{ cursor: 'pointer' }}>
               <circle cx="172" cy="210" r="8"
                 style={{ fill: selected === 'Bogotá D.C.' ? GOLD : '#8b6b4a', transition: 'all 0.15s' }}
@@ -190,64 +198,56 @@ export default function Regions() {
         </div>
 
         {/* ── PANEL ── */}
-        <div style={s.panel}>
+        <div style={{ ...s.panel, minHeight: isMobile ? 'auto' : '520px' }}>
           {!selected ? (
-            <div style={s.emptyPanel}>
-              <p style={s.emptySub}>Selecciona un departamento en el mapa para descubrir su artesanía, historia y cultura</p>
+            <div style={{ ...s.emptyPanel, height: isMobile ? '120px' : '400px' }}>
+              <p style={s.emptySub}>Selecciona un departamento para descubrir su artesanía</p>
             </div>
           ) : (
             <div>
               <div style={s.panelHeader}>
                 <div>
                   <p style={s.panelSpecialty}>{data.specialty}</p>
-                  <h2 style={s.panelTitle}>{selected}</h2>
+                  <h2 style={{ ...s.panelTitle, fontSize: isMobile ? '1.4rem' : '1.8rem' }}>{selected}</h2>
                   <div style={s.panelBar} />
                 </div>
                 <button style={s.closeBtn} onClick={() => setSelected(null)}>×</button>
               </div>
 
-              {/* Stats — datos reales de la BD */}
-              <div style={s.statsGrid}>
+              <div style={{ ...s.statsGrid, gridTemplateColumns: 'repeat(3, 1fr)' }}>
                 <div style={s.statCard}>
                   <div style={s.statNum}>{artisanCount[selected] ?? 0}</div>
-                  <div style={s.statLabel}>Artesanos registrados</div>
+                  <div style={s.statLabel}>Artesanos</div>
                 </div>
                 <div style={s.statCard}>
-                  <div style={s.statNum}>
-                    {loadingCounts ? '...' : (productCount[selected] ?? 0)}
-                  </div>
-                  <div style={s.statLabel}>Productos publicados</div>
+                  <div style={s.statNum}>{loadingCounts ? '...' : (productCount[selected] ?? 0)}</div>
+                  <div style={s.statLabel}>Productos</div>
                 </div>
                 <div style={s.statCard}>
                   <div style={s.statNum}>{data.years}</div>
-                  <div style={s.statLabel}>Años de tradición</div>
+                  <div style={s.statLabel}>Años</div>
                 </div>
               </div>
 
-              {/* Historia */}
               <div style={s.sectionLabel}>Historia artesanal</div>
               <p style={s.historyText}>{data.history}</p>
 
-              {/* Técnicas */}
               <div style={s.sectionLabel}>Técnicas tradicionales</div>
               <div style={s.tags}>
                 {data.techniques.map(t => <span key={t} style={s.tag}>{t}</span>)}
               </div>
 
-              {/* Productos destacados */}
               <div style={s.sectionLabel}>Productos destacados</div>
               <div style={s.tags}>
                 {data.featured.map(p => <span key={p} style={s.productTag}>{p}</span>)}
               </div>
 
-              {/* Artesanos reales */}
               {regionArtisans.length > 0 && (
                 <>
                   <div style={s.sectionLabel}>Artesanos de {selected}</div>
                   <div style={s.artisansList}>
                     {regionArtisans.slice(0, 3).map(a => (
-                      <div key={a.id} style={s.artisanChip}
-                        onClick={() => navigate(`/artisans/${a.id}`)}>
+                      <div key={a.id} style={s.artisanChip} onClick={() => navigate(`/artisans/${a.id}`)}>
                         <div style={s.artisanAvatar}>{a.username?.[0]?.toUpperCase()}</div>
                         <div>
                           <p style={s.artisanName}>{a.username}</p>
@@ -273,25 +273,25 @@ export default function Regions() {
 }
 
 const s = {
-  page: { padding: '56px', fontFamily: "'Segoe UI', sans-serif", minHeight: '100vh' },
-  title: { fontFamily: "'Playfair Display', serif", fontSize: '2.2rem', fontWeight: 700, margin: '0 0 10px', color: '#222' },
+  page: { fontFamily: "'Segoe UI', sans-serif", minHeight: '100vh', background: '#fff', color: '#222' },
+  title: { fontFamily: "'Playfair Display', serif", fontSize: '2.2rem', fontWeight: 700, margin: '0 0 10px', color: '#1a1a1a' },
   titleBar: { width: '48px', height: '3px', background: GOLD, marginBottom: '12px' },
-  sub: { color: '#888', fontSize: '0.95rem', margin: '0 0 40px' },
+  sub: { color: '#888', fontSize: '0.95rem', margin: '0 0 32px' },
   layout: { display: 'flex', gap: '40px', alignItems: 'flex-start' },
-  mapContainer: { flexShrink: 0, background: '#F6F1E7', borderRadius: '12px', padding: '16px', border: '1px solid #e8e0d0' },
+  mapContainer: { flexShrink: 0, background: '#F6F1E7', borderRadius: '12px', padding: '16px', border: '1px solid #e8e0d0', boxSizing: 'border-box' },
   mapHint: { fontSize: '0.82rem', color: '#aaa', textAlign: 'center', margin: '0 0 8px' },
-  svg: { display: 'block', width: '320px', height: '480px' },
-  panel: { flex: 1, minHeight: '520px' },
-  emptyPanel: { display: 'flex', alignItems: 'center', justifyContent: 'center', height: '400px', textAlign: 'center' },
+  svg: { display: 'block' },
+  panel: { flex: 1 },
+  emptyPanel: { display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' },
   emptySub: { color: '#aaa', fontSize: '0.9rem', maxWidth: '280px', lineHeight: 1.6, margin: 0 },
   panelHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' },
   panelSpecialty: { fontSize: '0.78rem', color: BEIGE, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 6px' },
-  panelTitle: { fontFamily: "'Playfair Display', serif", fontSize: '1.8rem', fontWeight: 700, margin: '0 0 10px', color: '#222' },
+  panelTitle: { fontFamily: "'Playfair Display', serif", fontWeight: 700, margin: '0 0 10px', color: '#1a1a1a' },
   panelBar: { width: '40px', height: '3px', background: GOLD },
   closeBtn: { background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: '#aaa', padding: 0 },
-  statsGrid: { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '24px' },
+  statsGrid: { display: 'grid', gap: '12px', marginBottom: '24px' },
   statCard: { background: '#F6F1E7', borderRadius: '8px', padding: '14px', textAlign: 'center' },
-  statNum: { fontSize: '1.4rem', fontWeight: 700, color: '#222' },
+  statNum: { fontSize: '1.4rem', fontWeight: 700, color: '#1a1a1a' },
   statLabel: { fontSize: '0.78rem', color: '#888', marginTop: '4px' },
   sectionLabel: { fontSize: '0.78rem', fontWeight: 600, color: '#aaa', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '20px 0 10px' },
   historyText: { fontSize: '0.9rem', color: '#555', lineHeight: 1.8, margin: 0 },
@@ -301,7 +301,7 @@ const s = {
   artisansList: { display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '8px' },
   artisanChip: { display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 14px', background: '#F6F1E7', borderRadius: '8px', cursor: 'pointer', border: '1px solid #e8e0d0' },
   artisanAvatar: { width: '36px', height: '36px', borderRadius: '50%', background: BEIGE, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 700, color: '#fff', flexShrink: 0 },
-  artisanName: { fontSize: '0.88rem', fontWeight: 600, margin: 0, color: '#222' },
+  artisanName: { fontSize: '0.88rem', fontWeight: 600, margin: 0, color: '#1a1a1a' },
   artisanSpec: { fontSize: '0.78rem', color: '#888', margin: 0 },
   btnCatalog: { marginTop: '20px', padding: '12px 24px', background: BEIGE, color: '#fff', border: 'none', borderRadius: '6px', fontSize: '0.95rem', cursor: 'pointer', fontWeight: 600 },
 }

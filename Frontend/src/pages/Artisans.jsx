@@ -115,7 +115,7 @@ export default function Artisans() {
               <div style={{ ...s.info, padding: isMobile ? '12px' : '20px' }}>
                 <h3 style={{ ...s.name, fontSize: isMobile ? '0.95rem' : '1.15rem' }}>{a.username}</h3>
                 {a.specialty && <p style={s.specialty}>{a.specialty}</p>}
-                {a.region && <p style={s.region}>📍 {a.region}</p>}
+                {a.region && <p style={s.region}> {a.region}</p>}
                 {!isMobile && a.bio && <p style={s.bio}>{a.bio}</p>}
                 <div style={s.cardFooter}>
                   {a.years_of_experience > 0 && (

@@ -131,7 +131,7 @@ export default function Search() {
                 <div style={{ ...s.info, padding: isMobile ? '10px 12px' : '14px 16px' }}>
                   <h3 style={{ ...s.name, fontSize: isMobile ? '0.88rem' : '1rem' }}>{a.username}</h3>
                   {a.specialty && <p style={s.specialty}>{a.specialty}</p>}
-                  {a.region && <p style={s.region}>📍 {a.region}</p>}
+                  {a.region && <p style={s.region}> {a.region}</p>}
                   {!isMobile && a.bio && <p style={s.bio}>{a.bio}</p>}
                 </div>
               </Link>

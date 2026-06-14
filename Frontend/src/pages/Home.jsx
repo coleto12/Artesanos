@@ -246,10 +246,10 @@ export default function Home() {
 }
 
 const s = {
-  page: { fontFamily: "'Lato', sans-serif", color: '#222', background: '#fff', width: '100%', boxSizing: 'border-box' },
+  page: { fontFamily: "'Lato', sans-serif", color: '#222', background: '#fff', width: '100%', boxSizing: 'border-box',   colorScheme: 'light', },
   hero: { display: 'flex', alignItems: 'stretch', background: '#F6F1E7', overflow: 'hidden', width: '100%' },
   heroText: { flex: '0 0 50%', display: 'flex', flexDirection: 'column', justifyContent: 'center', textAlign: 'left', boxSizing: 'border-box', background: '#F6F1E7' },
-  heroTitle: { fontWeight: 700, lineHeight: 1.1, margin: '0 0 16px', textAlign: 'left', fontFamily: "'Playfair Display', serif" },
+  heroTitle: { fontWeight: 700, lineHeight: 1.1, margin: '0 0 16px', textAlign: 'left', fontFamily: "'Playfair Display', serif",color: '#1a1a1a' },
   heroAccent: { width: '48px', height: '4px', background: GOLD, margin: '0 0 24px' },
   heroSub: { fontSize: '1rem', color: '#555', maxWidth: '400px', margin: '0 0 36px', lineHeight: 1.6, textAlign: 'left' },
   heroBtns: { display: 'flex', gap: '12px', flexWrap: 'wrap' },
@@ -262,7 +262,7 @@ const s = {
   valueTitle: { display: 'block', fontSize: '0.95rem', color: '#222', fontWeight: 700, marginBottom: '8px', fontFamily: "'Lato', sans-serif" },
   valueDesc: { fontSize: '0.82rem', color: '#777', margin: 0, lineHeight: 1.5, fontFamily: "'Lato', sans-serif" },
   section: { width: '100%', boxSizing: 'border-box' },
-  sectionTitle: { textAlign: 'center', fontSize: '1.7rem', fontWeight: 700, margin: '0 0 10px', fontFamily: "'Playfair Display', serif" },
+  sectionTitle: { textAlign: 'center', fontSize: '1.7rem', fontWeight: 700, margin: '0 0 10px', fontFamily: "'Playfair Display', serif", color: '#1a1a1a',  },
   titleBar: { width: '48px', height: '3px', background: GOLD, margin: '0 auto 40px' },
   centered: { textAlign: 'center', marginTop: '36px' },
   catGrid: { display: 'grid' },
@@ -278,7 +278,7 @@ const s = {
   artisanOverlayBio: { color: 'rgba(255,255,255,0.85)', fontSize: '0.8rem', margin: 0, lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' },
   heartBtn: { position: 'absolute', top: '10px', right: '10px', background: 'rgba(255,255,255,0.9)', borderRadius: '50%', width: '32px', height: '32px', border: 'none', cursor: 'pointer', fontSize: '1rem', boxShadow: '0 1px 4px rgba(0,0,0,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 3 },
   banner: { background: '#eef2ee', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px', borderRadius: '16px', boxSizing: 'border-box' },
-  bannerTitle: { fontSize: '1.4rem', fontWeight: 700, margin: '0 0 10px', lineHeight: 1.3 },
+  bannerTitle: { fontSize: '1.4rem', fontWeight: 700, margin: '0 0 10px', lineHeight: 1.3,  color: '#1a1a1a',  },
   bannerSub: { fontSize: '0.9rem', color: '#666', margin: 0 },
   footer: { background: '#1a1a1a', color: '#bbb', display: 'grid', width: '100%', boxSizing: 'border-box' },
   footerBrand: { display: 'flex', flexDirection: 'column', gap: '14px' },
